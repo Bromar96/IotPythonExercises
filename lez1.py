@@ -21,5 +21,19 @@ print(f"2+3={2+3}")
 
 ##ESERCIZIO 4
 name=input("What's your name? ")
-print("Hello %s, how are you?" %name)
+print(f"Hello {name}, how are you?")
 
+##ESERCIZIO 5
+
+fw=open('myFile.txt','w')    ##open in write mode
+fw.write('Line to write')
+fw.close()
+
+f=open('myFile.txt')        ##open in read mode
+fileContent=f.readline()        ##read the content of the file
+f.close()
+print(fileContent)
+
+fa=open('myFile.txt','a')    ##open in append mode
+fa.write('\nAnother line')
+fa.close()

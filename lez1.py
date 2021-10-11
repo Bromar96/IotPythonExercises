@@ -23,7 +23,7 @@ print(f"2+3={2+3}")
 name=input("What's your name? ")
 print(f"Hello {name}, how are you?")
 
-##ESERCIZIO 5
+##ESERCIZIO File
 
 fw=open('myFile.txt','w')    ##open in write mode
 fw.write('Line to write')
@@ -37,3 +37,20 @@ print(fileContent)
 fa=open('myFile.txt','a')    ##open in append mode
 fa.write('\nAnother line')
 fa.close()
+
+##ESERCIZIO 5
+f1=open("original.txt")
+f2=open("copy.txt",'w')
+f2.write('The content of the original file is:\n')
+line=f1.readline()
+print(line)
+f2.write(line)
+line=f1.readline()
+print(line)
+f2.write(line)
+
+f1.close()
+f2.close()
+
+
+

@@ -9,6 +9,7 @@ pi=3.15169265
 print(f"{pi:.4}")
 
 ##ESERCIZIO 2
+print("\nEsercizio 2\n")
 name="Omar"
 age= 25
 birthday= "10/05/1996"
@@ -16,10 +17,14 @@ birthday= "10/05/1996"
 print('My name is ', name, ' and I\'m ', age, ' years old, I was born the ', birthday)
 
 ##ESERCIZIO 3
+print("\nEsercizio 3\n")
+
 print("\n\nCompute an addition")
 print(f"2+3={2+3}")
 
 ##ESERCIZIO 4
+print("\nEsercizio 4\n")
+
 name=input("What's your name? ")
 print(f"Hello {name}, how are you?")
 
@@ -39,6 +44,7 @@ fa.write('\nAnother line')
 fa.close()
 
 ##ESERCIZIO 5
+print("\nEsercizio 5\n")
 f1=open("original.txt")
 f2=open("copy.txt",'w')
 f2.write('The content of the original file is:\n')
@@ -52,5 +58,48 @@ f2.write(line)
 f1.close()
 f2.close()
 
+##ESERCIZIO LISTA
+print('\nEsercizio lista')
+numbers=[1,2,3,4,5] ##list
+list_len=len(numbers)
+sum_of_num=0                          ##EQUIVALENT
+for i in range(list_len):             ##for i in numbers:
+    sum_of_num += numbers[i]          ##  sum_of_num+=i
 
+print(f"The sum of all values is {sum_of_num}")
+prod=1
+i=0
+while i<list_len:
+    prod=prod*numbers[i]
+    i+=1
+print(f"The product of all values is {prod}")
+
+##ESERCIZIO 6
+print("\nEsercizio 6\n")
+numero=int(input("Scrivi un numero: "))
+if numero%2 == 0:
+    print("Number is a multiple of 2")
+elif numero%3 == 0:
+    print("Number is a multiple of 3")
+else:
+    print("Not a multiple of 2 or 3")
+
+##ESERCIZIO 7
+print("\nEsercizio 7\n")
+numbers=[1,2,3,4,5,6,7,8,9,10]
+avg=0
+maxN=0
+minN=99999
+summ=0
+for i in numbers:
+    summ+=i
+    if i < minN :
+        minN = i
+    elif i > maxN:
+        maxN = i
+    
+print(f"Min is {minN}")
+print(f"Max is {maxN}")
+avg=summ/(len(numbers))
+print(f"Average is {avg}")
 

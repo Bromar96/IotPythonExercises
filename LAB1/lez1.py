@@ -44,19 +44,44 @@ fa.write('\nAnother line')
 fa.close()
 
 ##ESERCIZIO 5
+
 print("\nEsercizio 5\n")
+##f1=open("original.txt")
+##f2=open("copy.txt",'w')
+##f2.write('The content of the original file is:\n')
+##line=f1.readline()
+##print(line)
+##f2.write(line)
+##line=f1.readline()
+##print(line)
+##f2.write(line)
+##
+##f1.close()
+##f2.close()
+
+
+##ESERCIZIO 5 with while
+
+
 f1=open("original.txt")
 f2=open("copy.txt",'w')
 f2.write('The content of the original file is:\n')
-line=f1.readline()
-print(line)
-f2.write(line)
-line=f1.readline()
-print(line)
-f2.write(line)
+print('The content of the original file is:\n')
+a=True #is flag
 
+while a:
+    line=f1.readline()
+    if not line:
+        print("\t\t\tEnd of File")
+        a = False
+    else:
+        print(line)
+        f2.write(line)
+        
 f1.close()
 f2.close()
+
+
 
 ##ESERCIZIO LISTA
 print('\nEsercizio lista')
@@ -102,4 +127,37 @@ print(f"Min is {minN}")
 print(f"Max is {maxN}")
 avg=summ/(len(numbers))
 print(f"Average is {avg}")
+
+##ESERCIZIO 8
+print("\nEsercizio 8\n")
+##Set all the keys and the empty values and then fill the dictionary
+personal_data={
+    "projectName": "",
+    "company": "",
+    "deviceList": [
+           {
+                "deviceID": "",
+                "deviceName": "",
+                "deviceType": "",
+               
+           }
+        ]
+    }
+
+personal_data['projectName']=input("Write the name of your project: ")
+personal_data['company']=input("Write the name of your company: ")
+personal_data['deviceList'][0]['deviceID']=input("\tWrite the ID of your device: ")
+personal_data['deviceList'][0]['deviceName']=input("\tWrite the name of your device: ")
+personal_data['deviceList'][0]['deviceType']=input("\tWrite the type of your device: ")
+
+##additional feature
+f=open("dict_content.txt", 'w')
+f.write(f"Project name: {personal_data['projectName']}\n")
+f.write(f"Company:      {personal_data['company']}\n")
+f.write(f"\tDevice ID:    {personal_data['deviceList'][0]['deviceID']}\n")
+f.write(f"\tDevice Name:  {personal_data['deviceList'][0]['deviceName']}\n")
+f.write(f"\tDevice type:  {personal_data['deviceList'][0]['deviceType']}")
+
+f.close()
+
 

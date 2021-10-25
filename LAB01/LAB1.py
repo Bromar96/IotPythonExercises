@@ -1,6 +1,11 @@
 ###MAIN CLASS
 from  Calculator import *
 
+def printJSON(f,operation,a,b):
+    f.write(f'\n\t"operation": "{operation}",')
+    f.write(f'\n\t"operand_1": {a},')
+    f.write(f'\n\t"operand_2": {b}')
+    return
 if __name__=="__main__":
     
     calc=Calculator()
@@ -9,6 +14,7 @@ if __name__=="__main__":
     print("Available operations: add, sub, mul, div  (tape 'exit' to finish)") 
     f=open("result.json", "w")
     f.write("{")
+    i=0
     while(flag):
         oper=input('Insert operation: ')
         if oper == "exit":
@@ -21,13 +27,18 @@ if __name__=="__main__":
             if result == -1:
                 print('Finish')
                 flag = 0
-            
+            elif i==0:
+                f.write(f'\n"operation{i}":')
+                f.write(" {")
+                printJSON(f,oper,op1,op2)
+                f.write("\n}")
             else:
-                f.write(f'\n"operation": "{oper}",')
-                f.write(f'\n"operand_1": "{op1}",')
-                f.write(f'\n"operand_2": "{op2}"')
-                print(f"The result is {result}")
-    f.write("\n}")
+                f.write(f',\n"operation{i}":')
+                f.write(" {")
+                printJSON(f,oper,op1,op2)
+                f.write("\n}")
+        i+=1
+    f.write("\n}") ##JSON file closed
     f.close()
 ##    print('Division is equal to', DIV)
     

@@ -10,7 +10,7 @@ class Example():
         self.id = 1
 
     def GET(self):
-        return open("index.html")
+        return open("index.html")  ##open a file
 
 
 if __name__ == '__main__':
@@ -28,6 +28,6 @@ if __name__ == '__main__':
             'tools.staticdir.dir': './js'
         },
     }
-    cherrypy.tree.mount(Example(), '/', conf)
+    cherrypy.tree.mount(Example(), '/', conf) ##first param is the name of the class
     cherrypy.engine.start()
     cherrypy.engine.block()

@@ -1,23 +1,23 @@
-##Main class
+##Calculator class to compute operations 
 
 class Calculator:
     def compute(self,operation,a,b):
-        res = 0
+        res = ""
         if operation == "add":
-            res = self.add(a,b)
+            res = str(self.add(a,b))
         elif operation == "sub":
-            res = self.sub(a,b)
+            res = str(self.sub(a,b))
         elif operation == "mul":
-            res = self.mult(a,b)
+            res = str(self.mult(a,b))
         elif operation == "div":
             try:
-                res = self.div(a,b)
+                res = str(self.div(a,b))
             except:
                 print("DivException occurred")
-                res=-1
+                res = ""
         else:
             print("Not valid operation!")
-            res = -1
+            res = ""
         return res
     
     def add(self, a, b):
@@ -31,5 +31,6 @@ class Calculator:
             raise ValueError("Dividen can't be equal to zero ")
         else:
             return a/b
+
         
     

@@ -1,11 +1,12 @@
+from House import *
 
 class Project:
     def __init__(self,owner,name,lastupdate):
         self.projOwner = owner #string
         self.projName = name #string
         self.lastUpdate = lastupdate #string
-        self.userList = ["NoUsers"] #list of dictionaries
-        self.houseList = ["NoHouse"] #list
+        self.userList = [] #list of dictionaries
+        self.houseList = [] #list
 
     ##projOwner is a string
     def getOwner(self):

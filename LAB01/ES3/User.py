@@ -10,7 +10,6 @@ class User:
 
     def pushHouse(self, value):
         self.houseList.append(value)
-        self.houseList.sort()   
         return
     
     def popHouse(self):
@@ -21,7 +20,7 @@ class User:
 
     def showHouses(self):
         for i in self.houseList:
-            print(f"houseID: {i}")
+            print(f"\thouseID: {i}")
         return
 
     def getName(self):
@@ -43,6 +42,10 @@ class User:
 
     def setChatID(self, newID):
         self.chatID = newID
+        return
+
+    def addHouseToUser(self,houseID):
+        self.pushHouse(houseID)
         return
     
         

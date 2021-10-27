@@ -4,7 +4,7 @@ from User import *
 from House import *
 
 ##given a line of a json file "key": "value", returns only value
-def searchValue(stringa):
+def searchStringa(stringa):
     start = 0
     stop = 0
     for i in range(len(stringa)):
@@ -36,10 +36,38 @@ def readUser(f, p):
     lista=line.split(':')
     chatID=parse(lista[1]) 
 
-    p.createUser(name,userID,chatID)
-    
-    
+    u = p.createUser(name,userID,chatID)
+    ##add list of HouseID
+    line = f.readline()
+    lista=line.split(':')  
+    for i in range(len(lista)):
+        if "houseID" in lista[i]:
+            ID=(lista[i+1][1])
+            u.addHouseToUser(ID)       
     return 
+
+def readHouse(f, p):
+
+    userID=""
+    houseID=""
+    
+    for i in range(2):
+        line = f.readline()
+        lista = line.split(':')
+        if "userID" in lista[0]:
+            userID=parse(lista[1])
+        elif "houseID" in lista[0]:
+            houseID=parse(lista[1])
+
+    h = p.createHouse(userID,houseID)
+    line = f.readline()
+    if "devicesList" in lista[0]:
+        h.readDevice(f)
+
+    
+           
+    return 
+
 
 if __name__=="__main__":
     f=open("catalog.json")
@@ -68,15 +96,40 @@ if __name__=="__main__":
 
     line= f.readline()
     lista=line.split(':')
-    if lista[0] == '  "usersList"':
-        ##now i need to save Users
-        line=f.readline()
-        print("sono qui")
-        readUser(f, p)
+    
+    if "usersList" in lista[0]:
+        user=1
+        while(user):
+            line=f.readline()
+            if '{' in line:
+                readUser(f, p)
+            elif "]," in line:
+                user=0 #user are finished
 
-    ##elif lista[0] == '"houses"' :
+    line= f.readline()
+    lista=line.split(':')
 
     
+    if "houses" in lista[0]:
+        house=1
+        while(house):
+            line=f.readline()
+            if '{' in line:
+                readHouse(f,p)
+            elif '],' in line:
+                house=0
+                
+##        ##now i need to save Users
+##        line=f.readline()
+##        readUser(f, p)
+
+    ##elif lista[0] == '"houses"' :
+    print("Print users list")
+    p.printUserList()
+    print("Print houses list for each User")
+    p.getHouseListOfEachUser()
+    print("print all devices")
+    p.showDeviceList()
     
 ##    print(p.getUserList())
 ##    print(p.getHouseList())
@@ -89,11 +142,6 @@ if __name__=="__main__":
 ##    print(newHouse.getUserID())
 
 
-##second approach: read one line and consider it as a pair "key":"value"
-    line=f.readline()
-    name=searchValue(line)
-    line=f.readline()
-    update=searchValue(line)
     
     ##if(line= "}"):
     f.close()

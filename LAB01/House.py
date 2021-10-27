@@ -7,9 +7,28 @@ class House:
     def getUserID(self):
         return self.userID
 
+    def setUserID(self, newID):
+        self.userID = newID
+        return 
+
     def getHouseID(self):
         return self.houseID
 
+    def setHouseID(self, newID):
+        self.houseID = newID
+        return 
+
     def getDeviceList(self):
-        return self.deviceList
+        return self.deviceList()
+
+    def getPushDevice(self, device):
+        self.deviceList.append(device)
+        self.deviceList.sort()
+        return
+
+    def getPopDevice(self):
+        return self.deviceList.pop()
+
+    def getPopDeviceByID(self, ID):
+        return self.deviceList.pop(ID)
         

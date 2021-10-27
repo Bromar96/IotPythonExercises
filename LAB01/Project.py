@@ -1,11 +1,13 @@
 from House import *
+from Device import *
+from User import *
 
 class Project:
     def __init__(self,owner,name,lastupdate):
         self.projOwner = owner #string
         self.projName = name #string
         self.lastUpdate = lastupdate #string
-        self.userList = [] #list of dictionaries
+        self.userList = [] #list of users
         self.houseList = [] #list
 
     ##projOwner is a string
@@ -31,8 +33,26 @@ class Project:
     def setLastUpdate(self, date):
         self.lastUpdate = date
         return
-     
-    ##userList is a list of dictionaries
+        
+    ##userList is a list of integers (ID)
+
+    def createUser(self, name, userID, chatID):
+        u = User()
+        u.setName(name)
+        u.setUserID(userID)
+        u.setChatID(chatID)
+
+        a = u.getName()
+        b = u.getUserID()
+        c = u.getChatID()
+
+        print(a+' '+b+' '+c)
+    
+        
+        self.addToUserList(u)
+        
+        return
+    
     def getUserList(self):
         return self.userList 
 
@@ -48,3 +68,4 @@ class Project:
         self.houseList.append(house)
         return
     
+

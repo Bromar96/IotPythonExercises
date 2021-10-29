@@ -54,6 +54,20 @@ class Device:
 
     def getMeasureTypeList(self):
         return self.measureType
-    
+
+    def getAllInfo(self):
+        ID = self.deviceID
+        name = self.deviceName
+        print(f"DeviceID: {ID}")
+        print(f"Device name: {name}")
+        print("Measure types:")
+        for m in self.measureType:
+            print(m)
+        print("Available Services:")
+        for s in self.availableServices:
+            print(s)
+        last = self.lastUpdate
+        print(f"last update: {last}")
+        return
 
         

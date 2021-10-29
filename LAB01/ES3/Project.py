@@ -68,7 +68,6 @@ class Project:
     
     def createHouse(self, userID, houseID):
         h = House(userID,houseID) 
-        self.addToHouseList(h)
         return h
 
     def getHouseListOfEachUser(self):
@@ -80,7 +79,7 @@ class Project:
 
     def showDeviceList(self):
         for h in self.houseList:
-            ID = h.getHouseID
+            ID = h.getHouseID()
             print(f"HouseID: {ID}")
             h.showDevicesInHouse()
 

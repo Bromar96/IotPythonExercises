@@ -21,7 +21,7 @@ class House:
         return 
 
     def getDeviceList(self):
-        return self.deviceList()
+        return self.deviceList
 
     def addDevice(self, device):
         self.deviceList.append(device)
@@ -49,6 +49,7 @@ class House:
     def readDevice(self, f):
         device = 1
         d = Device("","")
+        f.readline()
         while(device):
             line=f.readline()
             lista = line.split(':')
@@ -71,8 +72,9 @@ class House:
             elif "lastUpdate" in line:
                 last=self.parse(lista[1])
                 device = 0
-        f.readline()
-        f.readline()
+            
+        f.readline() #chiusa graffa
+        f.readline() #chiusa quadra
         self.addDevice(d)
         return 
         

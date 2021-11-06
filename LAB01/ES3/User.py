@@ -20,7 +20,7 @@ class User:
 
     def showHouses(self):
         for i in self.houseList:
-            print(f"\thouseID: {i}")
+            print(f"\t\thouseID: {i}")
         return
 
     def getName(self):
@@ -45,7 +45,18 @@ class User:
         return
 
     def addHouseToUser(self,houseID):
-        self.pushHouse(houseID)
+        new = int(houseID)
+        self.pushHouse(new)
+        return
+    
+    def getAllInfo(self):
+        print(f"\tuser name: {self.userName}")
+        print(f"\tuserID:    {self.userID}")
+        print(f"\tchatID:    {self.chatID}")
+        print("\tList of houses ID: ", end='')
+        for i in self.houseList:
+            print(f"{i} ", end='')
+        print('')
         return
     
         

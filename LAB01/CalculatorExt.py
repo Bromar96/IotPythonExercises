@@ -4,24 +4,28 @@ from Calculator import *
 class CalculatorExt(Calculator):
     def computeExt(self,operation,lista):
         finalRes=""
+        first = 1
         res=0
 
         for i in lista:
             if operation == "add":
                 res = Calculator.add(self,res,i)
             elif operation == "sub":
-                if res==0:
+                if first == 1:
+                    first = 0
                     res = Calculator.add(self,res,i)  ##first operand must be ADDED 
                 else:
                     res = Calculator.sub(self,res,i)
             elif operation == "mul":
-                if res==0:
-                    res = Calculator.add(self,res,i)  ##first operand must be ADDED 
+                if first==1:
+                    first = 0
+                    res = Calculator.mult(self,1,i)  ##first operand must be ADDED 
                 else:
                     res = Calculator.mult(self,res,i)
             elif operation == "div":
-                if res==0:
-                    res = Calculator.add(self,res,i)  ##first operand must be ADDED 
+                if first==1:
+                    first = 0
+                    res = Calculator.mult(self,1,i)  ##first operand must be ADDED 
                 else:
                     try:
                         res = Calculator.div(self,res,i)

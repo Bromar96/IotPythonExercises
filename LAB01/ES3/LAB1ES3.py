@@ -23,80 +23,36 @@ def parse(stringa):
             result = result + stringa[i]
     return result
 
-def readUser(f, p):
-    line = f.readline()
-    lista=line.split(':')
-    name=parse(lista[1])   
-
-    line = f.readline()
-    lista=line.split(':')
-    userID=parse(lista[1])
-
-    line = f.readline()
-    lista=line.split(':')
-    chatID=parse(lista[1]) 
-
-    u = p.createUser(name,userID,chatID)
-    ##add list of HouseID
-    line = f.readline()
-    lista=line.split(':')  
-    for i in range(len(lista)):
-        if "houseID" in lista[i]:
-            ID=(lista[i+1][1])
-            u.addHouseToUser(ID)       
-    return 
-
-def readHouse(f, p):
-
-    userID=""
-    houseID=""
-    house = 1
-    h = p.createHouse(userID,houseID)
-    f.readline()
-    
-    while(house):
-        line = f.readline()
-        lista = line.split(':')
-        if "userID" in lista[0]:
-            userID=parse(lista[1])
-            h.setUserID(userID)
-        elif "houseID" in lista[0]:
-            houseID=parse(lista[1])
-            h.setHouseID(houseID)
-
-        elif "devicesList" in lista[0]:
-            h.readDevice(f)
-##        elif "lastUpdate" in lista[0]:
-##            last = parse(lista[1])
-##            h.setLastUpdate(last)
-        elif "}" in lista[0]:
-            p.addToHouseList(h)
-            house = 0             
-    return
 
 def searchDeviceByID(devID):
-    hList=p.getHouseList()
-    for h in hList:
-        devList = h.getDeviceList()
-        for d in devList:
-            ID = int(d.getDeviceID())
-            if ID == devID:
-                d.getAllInfo()
-    
+    p.searchDeviceByID(devID)
     return
 
 def searchDeviceByHouseID(houseID):
+    p.searchDeviceByHouseID(houseID)
     return
 
 def searchUserByUserID(userID):
+    p.searchUser(userID)
     return
+
 def searchDevicesByMeasureType(typeMT):
+    p.searchDevice(typeMT)
     return
 
 def insertDevice():
     return
 
 def printAll():
+    print("Owner:        ", p.getOwner())
+    print("Project name: ", p.getName())
+    print("Last update:  ", p.getLastUpdate())
+    print("Print users list: ")
+    p.printUserList()
+    print("Print houses list for each User")
+    p.getHouseListOfEachUser()
+    print("Print all devices")
+    p.showDeviceList()
     return
 def exit():
     return
@@ -131,7 +87,7 @@ if __name__=="__main__":
             while(user):
                 line=f.readline()
                 if '{' in line:
-                    readUser(f, p)
+                    p.readUser(f)
                 elif "]," in line:
                     user=0 #user are finished
                     
@@ -141,24 +97,23 @@ if __name__=="__main__":
             while(house):
                 line=f.readline()
                 if '{' in line:
-                    readHouse(f,p)
+                    p.readHouse(f)
                 elif ']' in line:
                     house = 0
                     
             flag = 0        
     
-    print("Owner: ", p.getOwner())
-    print("Project name: ", p.getName())
-    print("Last update: ", p.getLastUpdate())
-    
-    print("Print users list")
-    p.printUserList()
-    print("Print houses list for each User")
-    p.getHouseListOfEachUser()
-    print("print all devices")
-    p.showDeviceList()
+    printAll()
 
-    searchDeviceByID(2)
+    var1=int(input("Device ID to search: "))
+    searchDeviceByID(var1)
+    var1=int(input("House ID to search: "))
+    searchDeviceByHouseID(var1)
+    var1=int(input("User ID to search: "))
+    searchUserByUserID(var1)
+    measure=input("Measure type to search: ")
+    searchDevicesByMeasureType(measure)
+    
 ##    print(p.getUserList())
 ##    print(p.getHouseList())
 ##    h = House(24,1)

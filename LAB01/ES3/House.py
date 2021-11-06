@@ -35,9 +35,7 @@ class House:
 
     def showDevicesInHouse(self):
         for i in self.deviceList:
-            ID = i.getDeviceID()
-            name = i.getDeviceName()
-            print(f"\tDeviceID: {ID}, DeviceName: {name}")
+            i.getAllInfo()
 
     def parse(self, stringa):
         result=''
@@ -69,12 +67,28 @@ class House:
                 for i in servList:
                     i = self.parse(i)
                     d.addService(i)
+            elif "servicesDetails" in line:
+                d.readServDet(f)
             elif "lastUpdate" in line:
                 last=self.parse(lista[1])
+                d.setLastUpdate(last)
                 device = 0
             
         f.readline() #chiusa graffa
         f.readline() #chiusa quadra
         self.addDevice(d)
-        return 
+        return
+
+    def searchTypeInDevice(self, typeMT):
+        for dev in self.deviceList:
+            measList=dev.getMeasureTypeList()
+            for stringa in measList:
+
+                if typeMT == stringa:
+                    dev.getAllInfo()
+                    print("\n")
+        return
+
+    
+        
         

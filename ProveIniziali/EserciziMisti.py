@@ -10,8 +10,8 @@ for l in lista:
     print(l)
 
 #ESERCIZIO 2
-diz={'nome':'Omar','cognome':'Gai'}
-diz['matricola']= 290301
+diz={'nome':'Name','cognome':'Surname'}
+diz['matricola']= 012345
 
 #ESERCIZIO 3
 stringa=input('Immetti valori: ' )

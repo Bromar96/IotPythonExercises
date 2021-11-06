@@ -29,7 +29,8 @@ class Project:
     def getLastUpdate(self):
         return self.lastUpdate 
 
-    def setLastUpdate(self, date):
+    def setLastUpdate(self, last):
+        date = last[0:4]+'-'+last[4:6]+'-'+last[6:8]+' '+last[8:10]+':'+last[10:12]
         self.lastUpdate = date
         return
         
@@ -48,7 +49,7 @@ class Project:
     def printUserList(self):
         for i in self.userList:
             name = i.getName()
-            print(name)
+            print(f"\t{name}")
         return 
 
     def addToUserList(self, user):
@@ -57,6 +58,29 @@ class Project:
 
     def getUserList(self):
         return self.userList
+
+    def readUser(self, f):
+        line = f.readline()
+        lista=line.split(':')
+        name=self.parse(lista[1])   
+
+        line = f.readline()
+        lista=line.split(':')
+        userID=self.parse(lista[1])
+
+        line = f.readline()
+        lista=line.split(':')
+        chatID=self.parse(lista[1]) 
+
+        u = self.createUser(name,userID,chatID)
+        ##add list of HouseID
+        line = f.readline()
+        lista=line.split(':')  
+        for i in range(len(lista)):
+            if "houseID" in lista[i]:
+                ID=(lista[i+1][1])
+                u.addHouseToUser(ID)       
+        return 
 
     ##houseList is a list of House objects
     def getHouseList(self):
@@ -73,8 +97,33 @@ class Project:
     def getHouseListOfEachUser(self):
         for u in self.getUserList(): #self.userList
             user = u.getName()
-            print(f"User: {user}")
+            print(f"\tUser: {user}")
             u.showHouses()
+        return
+
+    def readHouse(self, f):
+
+        userID=""
+        houseID=""
+        house = 1
+        h = self.createHouse(userID,houseID)
+        f.readline()
+    
+        while(house):
+            line = f.readline()
+            lista = line.split(':')
+            if "userID" in lista[0]:
+                userID=self.parse(lista[1])
+                h.setUserID(userID)
+            elif "houseID" in lista[0]:
+                houseID=self.parse(lista[1])
+                h.setHouseID(houseID)
+
+            elif "devicesList" in lista[0]:
+                h.readDevice(f)
+            elif "}" in lista[0]:
+                self.addToHouseList(h)
+                house = 0             
         return
 
     def showDeviceList(self):
@@ -84,5 +133,48 @@ class Project:
             h.showDevicesInHouse()
 
         return
+
+    def getHouseByID(self,ID):
+        for h in self.houseList:
+            hid=h.getHouseID()
+            if hid == ID:
+                return h
+
+    def searchUser(self, userID):
+        for u in self.userList:
+            uid = int(u.getUserID())
+            if uid == userID:
+                u.getAllInfo()
+        return
+
+    def searchDeviceByID(self, devID):
+        for h in self.houseList:
+            devList = h.getDeviceList()
+            for d in devList:
+                ID = int(d.getDeviceID())
+                if ID == devID:
+                    d.getAllInfo()
+
+    def searchDeviceByHouseID(self,houseID):
+        for h in self.houseList:
+            hid= int(h.getHouseID())
+            if hid == houseID:
+                devList = h.getDeviceList()
+                for d in devList:
+                    d.getAllInfo()
+        return
+
+    def searchDevice(self,typeMT):
+        for h in self.houseList:
+            h.searchTypeInDevice(typeMT)
+        return
+
+    ##given a string, every character that is not [a-z][A-Z] is deleted
+    def parse(self, stringa):
+        result=''
+        for i in range(len(stringa)):
+            if stringa[i].isalnum():
+                result = result + stringa[i]
+        return result
         
     

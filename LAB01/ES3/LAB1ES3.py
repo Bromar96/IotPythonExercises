@@ -40,9 +40,6 @@ def searchDevicesByMeasureType(typeMT):
     p.searchDevice(typeMT)
     return
 
-def insertDevice():
-    return
-
 def printAll():
     print("Owner:        ", p.getOwner())
     print("Project name: ", p.getName())
@@ -54,9 +51,20 @@ def printAll():
     print("Print all devices")
     p.showDeviceList()
     return
-def exit():
+
+def closeProgram():
     return
 
+def insertNewDevice():
+    print("Available users:")
+    p.printUserList()
+    user=int(input("Insert the user ID: "))
+    print("Available houses:")
+    p.printHousesForUser(user)
+    house=int(input("Insert the house ID: "))
+    device=int(input("Insert the device ID: "))
+    p.insertDevice(user,house,device)
+    return
 
 
 
@@ -102,30 +110,41 @@ if __name__=="__main__":
                     house = 0
                     
             flag = 0        
-    
-    printAll()
-
-    var1=int(input("Device ID to search: "))
-    searchDeviceByID(var1)
-    var1=int(input("House ID to search: "))
-    searchDeviceByHouseID(var1)
-    var1=int(input("User ID to search: "))
-    searchUserByUserID(var1)
-    measure=input("Measure type to search: ")
-    searchDevicesByMeasureType(measure)
-    
-##    print(p.getUserList())
-##    print(p.getHouseList())
-##    h = House(24,1)
-##
-##    p.addToHouseList(h)
-##    
-##    newHouse = p.getHouseList().pop()
-##
-##    print(newHouse.getUserID())
-
-
-    
-    ##if(line= "}"):
     f.close()
     print("End of file")
+
+    run = 1
+    while run:
+        print("\n\nAVAILABLE FEATURES:")
+        print("\t1) search device by ID")
+        print("\t2) search device by houseID")
+        print("\t3) search user by userID")
+        print("\t4) search devices by measure type")
+        print("\t5) insert new device")
+        print("\t6) print the full catalog")
+        print("\t7) exit")
+        scelta=int(input("Do your choice: "))
+
+        if scelta == 1:
+            var1=int(input("Device ID to search: "))
+            searchDeviceByID(var1)
+        elif scelta == 2:
+            var1=int(input("House ID to search: "))
+            searchDeviceByHouseID(var1)
+        elif scelta == 3:
+            var1=int(input("User ID to search: "))
+            searchUserByUserID(var1)
+        elif scelta == 4:
+            measure=input("Measure type to search: ")
+            searchDevicesByMeasureType(measure)
+        elif scelta == 5:    
+            insertNewDevice()
+        elif scelta == 6:
+            printAll()
+        elif scelta == 7:
+            closeProgram()
+            run = 0
+        else:
+            print("Choice is not valid!")
+
+    

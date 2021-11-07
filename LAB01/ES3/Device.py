@@ -23,6 +23,26 @@ class Device:
 
     def getServices(self):
         return self.availableServices
+
+    def addServicesDetails(self):
+        for s in self.availableServices:
+            diz = {}
+            t = 1
+            topList=[]
+            IP = input(f"\t\tFor service {s} insert the service IP: ")
+            while (t):
+                topic = input(f"\t\tFor service {s} insert the topic (optional): ")
+                if topic == "":
+                    t = 0
+                else:
+                   topList.append(topic) 
+
+            if len(topList) == 0:
+                diz ={"serviceType": s, "serviceIP": IP}
+            else:
+                diz ={"serviceType": s, "serviceIP": IP, "topic": topList}
+                
+            self.servicesDetails.append(diz)  
     
     def getDeviceID(self):
         return self.deviceID
@@ -43,6 +63,10 @@ class Device:
 
     def setLastUpdate(self, last):
         date = last[0:4]+'-'+last[4:6]+'-'+last[6:8]
+        self.lastUpdate = date
+        return
+
+    def update(self,date):
         self.lastUpdate = date
         return
     
@@ -76,7 +100,7 @@ class Device:
             for d in diz:
                 print(f"\t\t{d}")
         last = self.lastUpdate
-        print(f"\tlast update: {last}")
+        print(f"\tlast update: {last}\n")
         return
 
     def readServDet(self,f):

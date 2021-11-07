@@ -1,4 +1,5 @@
 from Device import *
+from datetime import datetime
 
 class House:
     def __init__ (self, user, house):
@@ -22,10 +23,6 @@ class House:
 
     def getDeviceList(self):
         return self.deviceList
-
-    def addDevice(self, device):
-        self.deviceList.append(device)
-        return
 
     def popDevice(self):
         return self.deviceList.pop()
@@ -76,8 +73,8 @@ class House:
             
         f.readline() #chiusa graffa
         f.readline() #chiusa quadra
-        self.addDevice(d)
-        return
+        self.deviceList.append(d)
+        return d
 
     def searchTypeInDevice(self, typeMT):
         for dev in self.deviceList:
@@ -90,5 +87,36 @@ class House:
         return
 
     
+    def modifyDevice(self,devID):
         
+        return
+
+    def addDevice(self,devID):
+        new = Device(devID,"")
+        name=input("\tInsert name of your device: ")
+        new.setDeviceName(name)
+        flag = 1
+        print("\tInsert list of measure type, -1 to finish")
+        while(flag):
+            mt = input("\t")
+            if mt == "-1":
+                flag = 0
+            else:
+                new.addMeasureType(mt)
+        flag = 1
+        print("\tInsert list of available services, -1 to finish")
+        while(flag):
+            mt = input("\t")
+            if mt == "-1":
+                flag = 0
+            else:
+                new.addService(mt)
+
+        new.addServicesDetails()
+        
+        today = str(datetime.today())
+        print(today[0:10])
+        new.update(today[0:10])
+        self.deviceList.append(new)
+        return new
         

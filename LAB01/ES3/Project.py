@@ -7,7 +7,8 @@ class Project:
         self.projName = name #string
         self.lastUpdate = lastupdate #string
         self.userList = [] #list of users
-        self.houseList = [] #list of houses 
+        self.houseList = [] #list of houses
+        self.deviceList = [] #full list of devices
 
     ##projOwner is a string
     def getOwner(self):
@@ -49,7 +50,8 @@ class Project:
     def printUserList(self):
         for i in self.userList:
             name = i.getName()
-            print(f"\t{name}")
+            ID= i.getUserID()
+            print(f"\t{name} userID: {ID}")
         return 
 
     def addToUserList(self, user):
@@ -101,6 +103,12 @@ class Project:
             u.showHouses()
         return
 
+    def printHousesForUser(self,user):
+        for u in self.getUserList(): #self.userList
+            if user== int(u.getUserID()):
+                u.showHouses()
+        return
+
     def readHouse(self, f):
 
         userID=""
@@ -120,7 +128,8 @@ class Project:
                 h.setHouseID(houseID)
 
             elif "devicesList" in lista[0]:
-                h.readDevice(f)
+                newDev = h.readDevice(f)
+                self.deviceList.append(newDev)
             elif "}" in lista[0]:
                 self.addToHouseList(h)
                 house = 0             
@@ -131,7 +140,6 @@ class Project:
             ID = h.getHouseID()
             print(f"HouseID: {ID}")
             h.showDevicesInHouse()
-
         return
 
     def getHouseByID(self,ID):
@@ -148,12 +156,10 @@ class Project:
         return
 
     def searchDeviceByID(self, devID):
-        for h in self.houseList:
-            devList = h.getDeviceList()
-            for d in devList:
-                ID = int(d.getDeviceID())
-                if ID == devID:
-                    d.getAllInfo()
+        for d in self.deviceList:
+            ID = int(d.getDeviceID())
+            if ID == devID:
+                d.getAllInfo()
 
     def searchDeviceByHouseID(self,houseID):
         for h in self.houseList:
@@ -169,6 +175,33 @@ class Project:
             h.searchTypeInDevice(typeMT)
         return
 
+    def insertDevice(self,user,house,device):
+        #check if the device is already present
+        found = 0
+        er1 = 1
+        er2 = 1
+        for u in self.userList:
+            if user == int(u.getUserID()): 
+                er1 = 0
+        for h in self.houseList:
+            if house == int(h.getHouseID()):
+                er2 = 0
+        for d in self.deviceList:
+            if device == int(d.getDeviceID()):  
+                found = 1
+        if er1 == 1 or er2 == 1:
+            print("Error")
+        elif found == 1 and er1 == 0 and er2 == 0:
+            print("Device is already present")
+            self.houseList.sort()
+            self.houseList[house-1].modifyDevice(device)
+        elif found == 0 and er1 == 0 and er2 == 0:
+            print("Device is new")
+            newDevice = self.houseList[house-1].addDevice(device)
+            self.deviceList.append(newDevice)
+
+        return
+    
     ##given a string, every character that is not [a-z][A-Z] is deleted
     def parse(self, stringa):
         result=''

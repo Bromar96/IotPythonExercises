@@ -1,18 +1,12 @@
 import cherrypy
 class UriReverser():
-    """docstring for Reverser"""
 
     exposed = True
 
-    def __init__(self):
-        pass
-
     def GET(self, *uri):
-        print(len(uri))
-        if len(uri)>0:
-            for x in uri:
-                x=x[::-1]
-            return ''.join(x)
+        if len(uri) !=0:
+            return ', '.join([str(x)[::-1] for x in uri])
+            ##comma is used to separate elements, x is used to store elements (uris)
         else:
             # you can define a simple http error message
             raise cherrypy.HTTPError(400, 'No URI given, you need to provide at least one uri')

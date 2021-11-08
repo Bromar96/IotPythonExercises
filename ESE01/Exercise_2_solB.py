@@ -32,7 +32,7 @@ if __name__ == '__main__':
                 'tool.session.on': True
         }
     }
-    cherrypy.tree.mount(ParamsReverserJSON(), '/fancy', conf)
+    cherrypy.tree.mount(ParamsReverserJSON(), '/', conf)
     # this is needed if you want to have the custom error page
     # cherrypy.config.update({'error_page.400': error_page_400})
     cherrypy.engine.start()

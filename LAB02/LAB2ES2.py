@@ -14,8 +14,6 @@ class myWebService:
     
     def GET(self,*uri):  ##uri is the operation, params are the operands
         calc=Calculator()
-        f=open("result.json", "w")
-        f.write("{")
         toReturn=""
         myOperation={}
         if len(uri)==3:
@@ -23,30 +21,29 @@ class myWebService:
             op1=int(uri[1])
             op2=int(uri[2])
             result = calc.compute(oper,op1,op2)
+            self.printJSON(oper,op1,op2,result)
             if result=="":
-                self.operationFailed(f)
-                f.close()
                 return "OperationFailed"
             else:
-                self.printJSON(f,oper,op1,op2,result)
-                #json.dump(myOperation,f,indent=4)
-        myOperation={"operation": oper, "operand_1": op1,"operand_2": op2, "result": result}
-      
-        f.write("\n}") ##JSON file closed
-        f.close()        
-        return  json.dumps(myOperation)  
-
-    def printJSON(self,f,operation,a,b,c):
-        f.write(f'\n\t"operation": "{operation}",')
-        f.write(f'\n\t"operand_1": {a},')
-        f.write(f'\n\t"operand_2": {b},')
-        f.write(f'\n\t"result"   : {c} ')
+                myOperation={"operation": oper, "operand_1": op1,"operand_2": op2, "result": result}
+                return json.dumps(myOperation)     
+        else: 
+            return "Uri lenght is wrong"
         
+    def printJSON(self,operation,a,b,c):
+        f=open("result.json", "w")
+        if c == "":
+            f.write("Operation failed")
+        else:
+            f.write("{")
+            f.write(f'\n\t"operation": "{operation}",')
+            f.write(f'\n\t"operand_1": {a},')
+            f.write(f'\n\t"operand_2": {b},')
+            f.write(f'\n\t"result"   : {c} ')
+            f.write("\n}") 
+        f.close() 
         return
 
-    def operationFailed(self,f):
-         f.write(f'\n\t"operation": "failed",')
-         return
 if __name__ == '__main__':
     conf = {
         '/': {

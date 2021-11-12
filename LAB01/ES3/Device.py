@@ -9,6 +9,28 @@ class Device:
         self.servicesDetails=[] #list of dictionaries
         self.lastUpdate = ""
 
+    def getDeviceID(self):
+        return int(self.deviceID)
+
+    def setDeviceID(self, ID):
+        self.deviceID = int(ID)
+        return
+
+    def getDeviceName(self):
+        return self.deviceName
+
+    def setDeviceName(self, name):
+        self.deviceName = name
+        return
+
+    def getLastUpdate(self):
+        return self.lastUpdate
+
+    def setLastUpdate(self, last):
+        date = last[0:4]+'-'+last[4:6]+'-'+last[6:8]
+        self.lastUpdate = date
+        return
+
     def addService(self, service):
         self.availableServices.append(service)
         return
@@ -17,12 +39,21 @@ class Device:
         for i in self.availableServices:
             print(i)
         return
-
-    def popService(self):
-        return self.availableServices.pop()
-
+    
     def getServices(self):
         return self.availableServices
+
+    def addMeasureType(self, measure):
+        self.measureType.append(measure)
+        return
+    
+    def showMeasureType(self):
+        for i in self.measureType:
+            print(i)
+        return
+
+    def getMeasureTypeList(self):
+        return self.measureType
 
     def addServicesDetails(self):
         for s in self.availableServices:
@@ -43,43 +74,6 @@ class Device:
                 diz ={"serviceType": s, "serviceIP": IP, "topic": topList}
                 
             self.servicesDetails.append(diz)  
-    
-    def getDeviceID(self):
-        return self.deviceID
-
-    def setDeviceID(self, ID):
-        self.deviceID = ID
-        return
-
-    def getDeviceName(self):
-        return self.deviceName
-
-    def setDeviceName(self, name):
-        self.deviceName = name
-        return
-
-    def getLastUpdate(self):
-        return self.lastUpdate
-
-    def setLastUpdate(self, last):
-        date = last[0:4]+'-'+last[4:6]+'-'+last[6:8]
-        self.lastUpdate = date
-        return
-
-    def update(self,date):
-        self.lastUpdate = date
-        return
-    
-    def addMeasureType(self, measure):
-        self.measureType.append(measure)
-        return
-    def showMeasureType(self):
-        for i in self.measureType:
-            print(i)
-        return
-
-    def getMeasureTypeList(self):
-        return self.measureType
 
     def getAllInfo(self):
         ID = self.deviceID
@@ -109,19 +103,17 @@ class Device:
         st=0
         si=0
         t=0
-        diz={}
         while(det):
             line=f.readline()
             lista = line.split(':')
+            diz = {}
             if "serviceType" in line:
                 serTypeVal=self.parse(lista[1])
-                serTypeKey="serviceType"
-                serviceType = {serTypeKey:serTypeVal}
+                serviceType = {"serviceType":serTypeVal}
                 st=1
-            elif "serviceIP" in line:
-                serIPKey="serviceIP"    
+            elif "serviceIP" in line:   
                 if len(lista) > 2:
-                    ##is an IP address
+                    ##is an IP+port address
                     lista[1]+=" "
                     IP = lista[1][2:-1]
                     for i in range(len(lista[2])):
@@ -133,7 +125,7 @@ class Device:
                 else:
                     ##is an URL
                     serIPVal=self.parseURL(lista[1])
-                serviceIP = {serIPKey:serIPVal}
+                serviceIP = {"serviceIP" :serIPVal}
                 si=1
             elif "topic" in line:
                 topicList=lista[1].split(',')
@@ -146,14 +138,40 @@ class Device:
             elif "}" in line:
                 if(st==1):
                     diz.update(serviceType)
+                    st=0
                 if(si==1):
                     diz.update(serviceIP)
+                    si=0
                 if(t==1):
                     diz.update(topic)
+                    t=0
                 self.servicesDetails.append(diz)
                 line=f.readline()
                 if "]," in line:
                     det = 0
+        return
+
+    def printParameters(self):
+        print("\tdeviceID")
+        print("\tdeviceName")
+        print("\tmeasureType")
+        print("\tavailableServices")
+        print("\tserviceDetails")
+        return
+
+    def modifyParam(self, toModify):
+        if toModify == "deviceID":
+            print("new Device ID")
+        elif toModify == "deviceName":
+            print("new Device name")
+        elif toModify == "measureType":
+            print("new measure Type")
+        elif toModify == "availableServices":
+            print("new service")
+        elif toModify == "serviceDetails":
+            print("new detail")
+        else:
+            print("Error, no parameter")
         return
 
     def parse(self, stringa):

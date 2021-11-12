@@ -8,7 +8,6 @@ class Project:
         self.lastUpdate = lastupdate #string
         self.userList = [] #list of users
         self.houseList = [] #list of houses
-        self.deviceList = [] #full list of devices
 
     ##projOwner is a string
     def getOwner(self):
@@ -129,7 +128,7 @@ class Project:
 
             elif "devicesList" in lista[0]:
                 newDev = h.readDevice(f)
-                self.deviceList.append(newDev)
+                newID = newDev.getDeviceID()
             elif "}" in lista[0]:
                 self.addToHouseList(h)
                 house = 0             
@@ -147,59 +146,69 @@ class Project:
             hid=h.getHouseID()
             if hid == ID:
                 return h
+        return ""
 
     def searchUser(self, userID):
+        result = 0
         for u in self.userList:
             uid = int(u.getUserID())
             if uid == userID:
                 u.getAllInfo()
+                result = 1
+        if result == 0:
+            print("\t\tERROR: USER NOT FOUND\n")
         return
 
     def searchDeviceByID(self, devID):
-        for d in self.deviceList:
-            ID = int(d.getDeviceID())
-            if ID == devID:
-                d.getAllInfo()
+        result = 0
+        for h in self.houseList:
+            f = h.searchDevice(devID)
+            if f == 1:
+                result = 1
+        if result == 0:
+            print("\t\tERROR: DEVICE NOT FOUND\n")
 
     def searchDeviceByHouseID(self,houseID):
+        result = 0
         for h in self.houseList:
             hid= int(h.getHouseID())
             if hid == houseID:
-                devList = h.getDeviceList()
-                for d in devList:
-                    d.getAllInfo()
+                h.showDevicesInHouse()
+                result = 1
+        if result == 0:
+            print("\t\tERROR: HOUSE NOT FOUND\n")
         return
 
     def searchDevice(self,typeMT):
+        result = 0
         for h in self.houseList:
-            h.searchTypeInDevice(typeMT)
+            f = h.searchTypeInDevice(typeMT)
+            if f == 1:
+                result = 1
+        if result == 0:
+            print("\t\tERROR: DEVICE NOT FOUND, probably MEASURE TYPE IS WRONG\n")
         return
 
-    def insertDevice(self,user,house,device):
+    def insertDevice(self,userID,houseID,deviceID):
         #check if the device is already present
-        found = 0
-        er1 = 1
-        er2 = 1
-        for u in self.userList:
-            if user == int(u.getUserID()): 
-                er1 = 0
-        for h in self.houseList:
-            if house == int(h.getHouseID()):
-                er2 = 0
+        new = 1;
         for d in self.deviceList:
-            if device == int(d.getDeviceID()):  
-                found = 1
-        if er1 == 1 or er2 == 1:
-            print("Error")
-        elif found == 1 and er1 == 0 and er2 == 0:
-            print("Device is already present")
-            self.houseList.sort()
-            self.houseList[house-1].modifyDevice(device)
-        elif found == 0 and er1 == 0 and er2 == 0:
-            print("Device is new")
-            newDevice = self.houseList[house-1].addDevice(device)
-            self.deviceList.append(newDevice)
-
+            if d == deviceID:
+                new = 0;
+        if new == 1:
+            ##add house to User
+            for u in self.userList:  
+                if int(u.getUserID()) == userID:
+                    u.pushHouse(houseID)
+            ##add Device to House
+                
+            house = self.getHouseByID(houseID)
+            if house == "": ##house doesn't exists
+                house = House(userID,houseID)
+            house.addDevice(deviceID)
+        else:
+            house = self.getHouseByID(houseID)
+            house.modifyDevice(deviceID)
         return
     
     ##given a string, every character that is not [a-z][A-Z] is deleted

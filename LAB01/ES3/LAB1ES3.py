@@ -56,11 +56,7 @@ def closeProgram():
     return
 
 def insertNewDevice():
-    print("Available users:")
-    p.printUserList()
     user=int(input("Insert the user ID: "))
-    print("Available houses:")
-    p.printHousesForUser(user)
     house=int(input("Insert the house ID: "))
     device=int(input("Insert the device ID: "))
     p.insertDevice(user,house,device)

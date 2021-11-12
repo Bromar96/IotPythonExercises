@@ -5,7 +5,7 @@ class House:
     def __init__ (self, user, house):
         self.userID = user
         self.houseID = house
-        self.deviceList = []
+        self.deviceList = []  ##list of Devices
 
     def getUserID(self):
         return self.userID
@@ -23,12 +23,6 @@ class House:
 
     def getDeviceList(self):
         return self.deviceList
-
-    def popDevice(self):
-        return self.deviceList.pop()
-
-    def popDeviceByID(self, ID):
-        return self.deviceList.pop(ID)
 
     def showDevicesInHouse(self):
         for i in self.deviceList:
@@ -76,19 +70,38 @@ class House:
         self.deviceList.append(d)
         return d
 
+    def searchDevice(self,deviceID):
+        f = 0
+        for d in self.deviceList:
+            if d.getDeviceID() == deviceID:
+                d.getAllInfo()
+                f = 1
+        return f  
+
     def searchTypeInDevice(self, typeMT):
+        res = 0
         for dev in self.deviceList:
             measList=dev.getMeasureTypeList()
             for stringa in measList:
-
                 if typeMT == stringa:
                     dev.getAllInfo()
                     print("\n")
-        return
+                    res=1
+        return res
 
     
     def modifyDevice(self,devID):
-        
+        for d in self.deviceList:
+            if d.getDeviceID() == devID:
+                d.getAllInfo()
+                print("PRINT ALL PARAMETERS of Device")
+                d.printParameters()
+                param = input("What parameter to modify?")
+
+                d.modifyParam(param)
+                
+                today = str(datetime.today())
+                new.update(today[0:10])
         return
 
     def addDevice(self,devID):
@@ -118,5 +131,5 @@ class House:
         print(today[0:10])
         new.update(today[0:10])
         self.deviceList.append(new)
-        return new
+        return 
         

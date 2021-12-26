@@ -1,3 +1,7 @@
+import json
+
+#Exercise 1
+
 if __name__=="__main__":
     #This is the main
     print ("Sentence to print")
@@ -8,34 +12,32 @@ print("The average value is: %.2f" %value)  ##to print only 2 decimal numbers
 pi=3.15169265
 print(f"{pi:.4}")
 
-##ESERCIZIO 2
-print("\nEsercizio 2\n")
-name="Omar"
+#Exercise 2
+
+name="Paolo"
 age= 25
-birthday= "10/05/1996"
+birthday= "11/02/1993"
 
 print('My name is ', name, ' and I\'m ', age, ' years old, I was born the ', birthday)
 
-##ESERCIZIO 3
-print("\nEsercizio 3\n")
+#Exercise 3
 
 print("\n\nCompute an addition")
 print(f"2+3={2+3}")
 
-##ESERCIZIO 4
-print("\nEsercizio 4\n")
+#Exercise 4
 
 name=input("What's your name? ")
 print(f"Hello {name}, how are you?")
 
-##ESERCIZIO File
+#Exercise File
 
 fw=open('myFile.txt','w')    ##open in write mode
-fw.write('Line to write')
+fw.write('Line to write on file')
 fw.close()
 
-f=open('myFile.txt')        ##open in read mode
-fileContent=f.readline()        ##read the content of the file
+f=open('myFile.txt')        ##open in read mode (default)
+fileContent=f.readline()    ##read the content of the file
 f.close()
 print(fileContent)
 
@@ -43,24 +45,24 @@ fa=open('myFile.txt','a')    ##open in append mode
 fa.write('\nAnother line')
 fa.close()
 
-##ESERCIZIO 5
+#Exercise 5
 
 print("\nEsercizio 5\n")
-##f1=open("original.txt")
-##f2=open("copy.txt",'w')
-##f2.write('The content of the original file is:\n')
-##line=f1.readline()
-##print(line)
-##f2.write(line)
-##line=f1.readline()
-##print(line)
-##f2.write(line)
-##
-##f1.close()
-##f2.close()
+f1=open("original.txt")
+f2=open("copy.txt",'w')
+f2.write('The content of the original file is:\n')
+line=f1.readline()
+print(line)
+f2.write(line)
+line=f1.readline()
+print(line)
+f2.write(line)
+
+f1.close()
+f2.close()
 
 
-##ESERCIZIO 5 with while
+#Exercise 5 with while
 
 
 f1=open("original.txt")
@@ -83,7 +85,8 @@ f2.close()
 
 
 
-##ESERCIZIO LISTA
+#Exercise LIST
+
 print('\nEsercizio lista')
 numbers=[1,2,3,4,5] ##list
 list_len=len(numbers)
@@ -99,8 +102,8 @@ while i<list_len:
     i+=1
 print(f"The product of all values is {prod}")
 
-##ESERCIZIO 6
-print("\nEsercizio 6\n")
+#Exercise 6
+
 numero=int(input("Scrivi un numero: "))
 if numero%2 == 0:
     print("Number is a multiple of 2")
@@ -109,8 +112,8 @@ elif numero%3 == 0:
 else:
     print("Not a multiple of 2 or 3")
 
-##ESERCIZIO 7
-print("\nEsercizio 7\n")
+#Exercise 7
+
 numbers=[1,2,3,4,5,6,7,8,9,10]
 avg=0
 maxN=0
@@ -128,8 +131,8 @@ print(f"Max is {maxN}")
 avg=summ/(len(numbers))
 print(f"Average is {avg}")
 
-##ESERCIZIO 8
-print("\nEsercizio 8\n")
+#Exercise 8
+
 ##Set all the keys and the empty values and then fill the dictionary
 personal_data={
     "projectName": "",
@@ -152,12 +155,12 @@ personal_data['deviceList'][0]['deviceType']=input("\tWrite the type of your dev
 
 ##additional feature
 f=open("dict_content.txt", 'w')
-f.write(f"Project name: {personal_data['projectName']}\n")
-f.write(f"Company:      {personal_data['company']}\n")
-f.write(f"\tDevice ID:    {personal_data['deviceList'][0]['deviceID']}\n")
-f.write(f"\tDevice Name:  {personal_data['deviceList'][0]['deviceName']}\n")
-f.write(f"\tDevice type:  {personal_data['deviceList'][0]['deviceType']}")
-
+##f.write(f"Project name: {personal_data['projectName']}\n")
+##f.write(f"Company:      {personal_data['company']}\n")
+##f.write(f"\tDevice ID:    {personal_data['deviceList'][0]['deviceID']}\n")
+##f.write(f"\tDevice Name:  {personal_data['deviceList'][0]['deviceName']}\n")
+##f.write(f"\tDevice type:  {personal_data['deviceList'][0]['deviceType']}")
+json.dump(personal_data,f)
 f.close()
 
 

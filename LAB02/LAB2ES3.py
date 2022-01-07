@@ -14,7 +14,7 @@ class myWebService:
 
     def PUT(self,*uri,**query):
         calc=CalculatorExt()
-        myDict = json.loads(cherrypy.request.body.read())
+        myDict = json.loads(cherrypy.request.body.read())  ##read the body of the PUT method
         result=calc.computeExt(myDict['command'],myDict['operands'])
         if result != "":
             myDict['result'] = result

@@ -12,7 +12,7 @@ class myWebService:
     def GET(self,*uri):  ##uri is the operation, params are the operands
         return open('./index.html','r').read()
         
-    def POST(self,*uri,**quesy):
+    def POST(self,*uri):
         myDict = json.loads(cherrypy.request.body.read())      #read the form received
         myDevs = json.loads(open('./devices.json','r').read()) #read existing file
         #f.close()
@@ -20,10 +20,10 @@ class myWebService:
         listDevices.append(myDict)
         myDevs['devicesList'] = listDevices
 
-        f=open("devices.json",'w')
+        f=open("./devices.json",'w')
         json.dump(myDevs,f)
         f.close()
-        return json.dump(myDevs)
+        return json.dumps(myDevs)
 
 class mySecondWebService:
 

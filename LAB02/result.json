@@ -1,6 +1,6 @@
 {
-	"operation": "mul",
-	"operand_1": 345,
-	"operand_2": 2354,
-	"result"   : 812130 
+	"operation": "div",
+	"operand_1": 0,
+	"operand_2": 124,
+	"result"   : 0.0 
 }

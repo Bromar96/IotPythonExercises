@@ -30,6 +30,7 @@ class myWebService:
         else:
             return "Uri is empty"
 
+    #function to have a local copy of the file
     def printJSON(self,operation,a,b,c):
         f=open("result.json", "w")
         if c == "":

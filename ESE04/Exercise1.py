@@ -14,11 +14,11 @@ if __name__ == '__main__':
     
     i=0
     while i < 20:
-        print('valid inputs: On, Off, stop')
+        print('valid inputs: on, off, stop')
         status = input("Insert status of the LED: ")
         if status == 'stop':
            l.stopSim()
-        elif status == 'On' or status == 'Off':
+        elif status == 'on' or status == 'off':
             l.sendMessage(status)
             time.sleep(3)
         else:

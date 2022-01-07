@@ -5,7 +5,7 @@ import json
 class Led():
     def __init__(self, clientId,broker,port,topic):
         self.clientId = clientId;
-        self.status ='Off'
+        self.status ='off'
         self.mqttClient=MyMQTT(clientId,broker,port,self)  #self is for the notifier
         self.topic=topic
 
@@ -29,10 +29,10 @@ class Led():
     def sendMessage(self, msg):
         msgToSend = {}
         msgToSend["bn"] = self.clientId
-        if msg == 'On' and self.status == 'Off':   
+        if msg == 'on' and self.status == 'off':   
             msgToSend["status"] = msg
             self.mqttClient.myPublish(self.topic, msgToSend)
-        elif msg == 'Off' and self.status == 'On': 
+        elif msg == 'off' and self.status == 'on': 
             msgToSend["status"] = msg
             self.mqttClient.myPublish(self.topic, msgToSend)
         else:

@@ -1,63 +1,82 @@
-import random
-import json
 from MyMQTT import *
+import json
 import time
 
-class DataCollector():
-	"""docstring for Sensor"""
-	def __init__(self,clientID,broker,baseTopic):
-		self.clientID=clientID
-		self.baseTopic=baseTopic
-		self.client=MyMQTT(clientID,broker,1883, self)
-	def run(self):
-		self.client.start()
-		print('{} has started'.format(self.clientID))
-	def end(self):
-		self.client.stop()
-		print('{} has stopped'.format(self.clientID))
-	def follow(self,topic):
-		self.client.mySubscribe(topic)
-	def notify(self,topic,msg):
-		payload=json.loads(msg)
-		print(json.dumps(payload,indent=4))
+##subscriber side (Exercise3)
+class Subscriber():
+    def __init__(self, clientId,broker,port,topic):
+        self.clientId = clientId;
+        self.mqttClient=MyMQTT(clientId,broker,port,self)  #self is for the notifier
+        self.topic=topic
+
+    def notify(self,topic,payload):
+        msg=json.loads(payload)
+        print('Message Received')
+        print(json.dumps(msg,indent=4))
+
+    def startSim(self):        
+        self.mqttClient.start()
+        ##self.mqttClient.mySubscribe(self.topic)
+
+    def myUnsubscribe(self):
+        self.mqttClient.unsubscribe()
+
+    def stopSim(self):
+        self.mqttClient.stop()
+        
+    def setTopic(self, topic):
+        self.mqttClient.mySubscribe(topic)
 
 if __name__ == '__main__':
-	conf=json.load(open("settings.json"))
-	coll=DataCollector('dc'+str(random.randint(1,10**5)),conf["broker"],baseTopic=conf["baseTopic"])
-	coll.run()
-	print(f'This is the client to follow the data coming from the sensors of the building of {coll.baseTopic}')
-	choice=''
-	while choice!='q':
-		print("What kind of data you want to retrieve")
-		print("\ta: data from all the building")
-		print("\tf: data from a particular floor")
-		print("\tr: data from a particular room")
-		print("\tc: to go back to this menu")
-		print("\tq: to quit")
-		choice=input()
-		if choice=='q':
-			break
-		while choice!='c':		
-			if choice=='a':
-				coll.client.unsubscribe()
-				coll.follow(coll.baseTopic+'/#')
-			elif choice=='f':
-				print('Type the floor [0-->4]')
-				floor=str(input())
-				coll.client.unsubscribe()
-				coll.follow(coll.baseTopic+'/'+floor+'/#')
-			elif choice=='r':
-				print('Type the floor [0-->4]')
-				floor=str(input())
-				print('Type the room [1-->3]')
-				room=str(input())
-				coll.client.unsubscribe()
-				coll.follow(coll.baseTopic+'/'+floor+'/'+room+'/#')
-			choice=input()
-		coll.client.unsubscribe()
-		
-	coll.client.unsubscribe()
-	coll.end()
 
+    conf=json.load(open("settings.json"))
+    broker=conf["broker"]
+    port=conf["port"]
+    building=conf["baseTopic"]
+    topic = ''
+    clientSub=Subscriber('1234',broker,port,building)
+    floorID = ''
+    roomID = ''
+    sensorID = ''
+    print(f'Welcome in the building {building}')
+    print('3 options to retrieve data')
+    print('\topt1: all the sensors of the building')
+    print('\topt2: all the sensor on a single floor')
+    print('\topt3: sensor of a single room')
+    flag = True
+    clientSub.startSim()
+    time.sleep(2)
+    while (flag):
+        opt = int(input('\n\nChoose option (-1 to exit): '))
+        topic = ''
+        if opt == 1:
+            floorID = '#'
+            topic = building+'/'+floorID
+            clientSub.myUnsubscribe()
+            clientSub.setTopic(topic) #set new topic and subscription
+        elif opt == 2:
+            floorID = int(input('\tChoose floor [0-4]: '))
+            roomID = '#'
+            if floorID>=0 and floorID<=4:
+                topic = building+'/'+str(floorID)+'/'+roomID
+                clientSub.myUnsubscribe()
+                clientSub.setTopic(topic) #set new topic and subscription
+            else:
+                print('floor not valid')
+        elif opt == 3:
+            floorID = int(input('\tChoose floor [0-4]: '))
+            roomID =  int(input('\tChoose room  [1-3]: '))
+            sensorID = '+'
+            if floorID>=0 and floorID<=4 and roomID>=1 and roomID<=3:
+                topic = building+'/'+str(floorID)+'/'+str(roomID)+'/'+sensorID
+                clientSub.myUnsubscribe()
+                clientSub.setTopic(topic) #set new topic and subscription
+            else:
+                print('floor/room not valid')
+        elif opt == -1:
+            flag = False
+        else:
+            print('Input not valid')
+    clientSub.myUnsubscribe()
+    clientSub.stopSim()
 
-		

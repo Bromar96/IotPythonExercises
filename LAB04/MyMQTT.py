@@ -26,9 +26,6 @@ class MyMQTT:
     def myPublish (self, topic, msg):
         # publish a message with a certain topic
         self._paho_mqtt.publish(topic, json.dumps(msg), 2)
-        f=open("message.json",'w')
-        json.dump(msg,f)
-        f.close()
  
     def mySubscribe (self, topic):
         

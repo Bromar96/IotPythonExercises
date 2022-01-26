@@ -20,6 +20,7 @@ class myWebService():
     def PUT(self,*uri):
         myReq = uri[0]
         print(f"My req is: {myReq}")
+        print(f"body is: {cherrypy.request.body.read()}")
         f=open("req.json", 'w')
         f.write("{")
         f.write(f'\n\t"req": "{myReq}"')

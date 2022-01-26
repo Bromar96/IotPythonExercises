@@ -1,0 +1,1 @@
+{"buildingID": "IoT_project", "floorID": "1", "roomID": "1", "bn": "3", "e": [{"n": "temperature", "value": 14, "timestamp": "1642007793.7520537", "unit": "C"}, {"n": "humidity", "value": 71, "timestamp": "1642007793.7520537", "unit": "%"}]}

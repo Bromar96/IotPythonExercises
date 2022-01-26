@@ -3,9 +3,8 @@ import random
 import json
 from MyMQTT import *
 import time
-from simplePublisher import *
 
-class Sensor(MyPublisher):
+class Sensor():
 	"""docstring for Sensor"""
 	def __init__(self,buildingID,floorID,roomID,sensorID,broker,port):
 		self.buildingID=buildingID
@@ -34,6 +33,8 @@ class Sensor(MyPublisher):
 		message['e'][0]['timestamp']=str(time.time())
 		message['e'][1]['timestamp']=str(time.time())
 		self.client.myPublish(self.topic,message)
+		print("Message send")
+		
 
 	def start (self):
 		self.client.start()
@@ -45,7 +46,7 @@ if __name__ == '__main__':
 	conf=json.load(open("settings.json"))
 	Sensors=[]  ##list of sensors
 	buildingID=conf["baseTopic"]
-	floorIDs=[str(i)  for i in range(5)]
+	floorIDs=[str(i)  for i in range(2)]
 	roomIDs=[str(i+1) for i in range(3)]
 	broker=conf["broker"]
 	port=conf["port"]
@@ -55,8 +56,11 @@ if __name__ == '__main__':
 			sensor=Sensor(buildingID,floor,room,s,broker,port)  #one sensor for each room
 			Sensors.append(sensor)  ##appende alla lista di sensori
 			s+=1
+	i=0
 	for sensor in Sensors:
 		sensor.start()
+		print(f"Sensor {i}")
+		i+=1
 	while True:
 		for sensor in Sensors:
 			sensor.sendData()

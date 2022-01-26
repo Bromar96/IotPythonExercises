@@ -16,7 +16,7 @@ class Subscriber():
 
     def startSim(self):        
         self.mqttClient.start()
-        ##self.mqttClient.mySubscribe(self.topic)
+        self.mqttClient.mySubscribe(self.topic)
 
     def myUnsubscribe(self):
         self.mqttClient.unsubscribe()
@@ -77,6 +77,7 @@ if __name__ == '__main__':
             flag = False
         else:
             print('Input not valid')
+        time.sleep(7)
     clientSub.myUnsubscribe()
     clientSub.stopSim()
 

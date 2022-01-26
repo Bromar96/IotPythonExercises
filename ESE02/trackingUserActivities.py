@@ -5,27 +5,25 @@ import json
 class ParamsReverser(object):
     """docstring for Reverser"""
     exposed = True
-
     def __init__(self):
         pass
 
     def GET(self, *uri, **params):
-        if len(uri) == 0:
-            reverse = {}
-            for key in params.keys():
-                reverse[key] = params[key][::-1]
-            return json.dumps(reverse)
+        savedString = params.values()
+        if len(uri) == 1:
+            return str(cherrypy.session['myString'])
         else:
-            raise cherrypy.HTTPError(400, 'No URI given, you need to provide at least one uri')
+            cherrypy.session['myString']=savedString
+            return savedString
 
 if __name__ == '__main__':
     conf = {
         '/': {
                 'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
-                'tool.session.on': True
+                'tools.sessions.on': True
         }
     }
-    cherrypy.tree.mount(ParamsReverser(), '/simple', conf)
+    cherrypy.tree.mount(ParamsReverser(), '/', conf)
     # this is needed if you want to have the custom error page
     # cherrypy.config.update({'error_page.400': error_page_400})
     cherrypy.engine.start()
